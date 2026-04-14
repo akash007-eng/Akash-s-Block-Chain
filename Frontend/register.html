@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register</title>
+
+<style>
+
+body{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:linear-gradient(135deg,#0d0d0d,#1a1a1a,#262626);
+font-family:Arial;
+color:white;
+}
+
+/* container card */
+.container{
+width:350px;
+padding:30px;
+border-radius:12px;
+background:#141414;
+border:1px solid rgba(255,140,0,0.4);
+box-shadow:0 0 20px rgba(255,140,0,0.2);
+text-align:center;
+}
+
+/* inputs */
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:6px;
+border:1px solid #333;
+background:#0f0f0f;
+color:white;
+}
+
+/* button */
+button{
+width:100%;
+padding:10px;
+margin-top:15px;
+border:none;
+border-radius:8px;
+background:linear-gradient(135deg,#ff8c00,#ff6a00);
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+/* link */
+a{
+color:#ff8c00;
+text-decoration:none;
+}
+
+/* message */
+#msg{
+margin-top:10px;
+font-size:14px;
+color:#ff4d4d;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Create Account</h2>
+
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="register()">Register</button>
+
+<p id="msg"></p>
+
+<p>
+Already have account?
+<a href="login.html">Login</a>
+</p>
+
+</div>
+
+<script>
+
+async function register(){
+
+const username=document.getElementById("username").value
+const password=document.getElementById("password").value
+
+try{
+
+const res=await fetch("http://127.0.0.1:5000/register",{
+
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({username,password})
+
+})
+
+const data=await res.json()
+
+document.getElementById("msg").innerText=data.message
+
+if(data.message==="User registered successfully"){
+window.location.href="login.html"
+}
+
+}catch(error){
+
+document.getElementById("msg").innerText="Server not running"
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
+
